@@ -1,4 +1,4 @@
-package newpackage;
+package algorithms.dynamic.provinces;
 public class Solution {
 
     public int findCircleNum(int[][] isConnected) {

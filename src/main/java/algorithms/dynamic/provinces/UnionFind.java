@@ -1,4 +1,4 @@
-package newpackage;
+package algorithms.dynamic.provinces;
 
 public class UnionFind {
 
@@ -7,11 +7,14 @@ public class UnionFind {
     private int count;
 
     public UnionFind(int n) {
+        id = new int[n];
+        weight = new int[n];
+        count = n;
+
         for (int i = 0; i < n; i++) {
             id[i] = i;
             weight[i] = 1;
         }
-        count  = n;
     }
 
     public void union (int p, int q) {
@@ -35,7 +38,7 @@ public class UnionFind {
     /**
      * Find the corresponding node root
      * Flatten the tree up by making every other node in pass
-     * point to it's grandparent.
+     * point to its grandparent.
      */
     public int find(int p) {
         while (p != id[p]) {

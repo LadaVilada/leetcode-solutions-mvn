@@ -12,6 +12,9 @@ target/
 *.iml
 *.ipr
 
+### JetBrains template
+.idea
+
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -36,3 +39,24 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+### Maven template
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+### Java template
+*.class
