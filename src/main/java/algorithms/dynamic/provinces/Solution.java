@@ -12,7 +12,7 @@ public class Solution {
      */
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        UnionFind uf = new UnionFind(n);
+        WeightedQuickUnionUF uf = new WeightedQuickUnionUF(n);
 
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {

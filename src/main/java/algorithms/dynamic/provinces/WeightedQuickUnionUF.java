@@ -1,12 +1,12 @@
 package algorithms.dynamic.provinces;
 
-public class UnionFind {
+public class WeightedQuickUnionUF {
 
     // int array to keep track of the parent node of each node
     // helps identify connected components
-    private int[] id;
+    private final int[] id;
     // keep track of the size of each component
-    private int[] weight;
+    private final int[] weight;
     // Tracks the number of disjoint sets remaining
     private int count;
 
@@ -15,7 +15,7 @@ public class UnionFind {
      *
      * @param n number of nodes
      */
-    public UnionFind(int n) {
+    public WeightedQuickUnionUF(int n) {
         id = new int[n];
         weight = new int[n];
         count = n;
@@ -81,6 +81,7 @@ public class UnionFind {
      * @param p node p
      * @return the corresponding root
      */
+    @Deprecated
     public int findOpt(int p) {
         if (id[p] != p) {
             // pointing to the root
