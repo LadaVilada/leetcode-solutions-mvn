@@ -39,22 +39,40 @@ import java.util.Arrays;
  * No need to track front or rear.
  * Not recommended for large queues, remove(0) is O(n) (shifts all elements left).
  */
-public class ArrayQueue {
+public class ArrayQueue<T> {
 
-    private int[] queue;
+    private T[] queue;
     private int head;
     private int tail;
     private int size;
-    private int capacity;
+    private final int capacity;
 
     /**
      * Constructor initializes an empty circular queue with fixed capacity.
      *
      * @param capacity the maximum number of elements the queue can hold.
      */
+    @SuppressWarnings("unchecked")
     public ArrayQueue(int capacity) {
         this.capacity = capacity;
-        this.queue = new int[capacity];
+        this.queue = (T[]) new Object[capacity];
+        head = 0;
+        tail = -1;
+        size = 0;
+    }
+
+    /**
+     * Pass a Class Type Token
+     * Another FAANG-accepted way is to pass a Class object
+     * in the constructor and create an array dynamically.
+     *
+     * @param clazz    ClassType Token
+     * @param capacity the maximum number of elements the queue can hold.
+     */
+    public ArrayQueue(Class<T> clazz, int capacity) {
+        this.capacity = capacity;
+        this.queue = (T[]) java.lang.reflect.Array.newInstance(clazz, capacity); // Safe Reflection-Based Array
+
         head = 0;
         tail = -1;
         size = 0;
@@ -75,7 +93,7 @@ public class ArrayQueue {
      * @param item element to be added.
      * @throws IllegalStateException if the queue is full.
      */
-    public void enqueue(int item) {
+    public void enqueue(T item) {
         if (isFull()) {
             throw new IllegalStateException("Queue is full. Cannot enqueue " + item);
         }
@@ -92,12 +110,12 @@ public class ArrayQueue {
      * @return the removed element.
      * @throws EmptyQueueException if the queue is empty.
      */
-    public int poll() {
+    public T poll() {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty. Cannot poll.");
         }
 
-        int item = queue[head];
+        T item = queue[head];
         head = (head + 1) % capacity;
         size--;
 
@@ -116,7 +134,7 @@ public class ArrayQueue {
      * @return the front element.
      * @throws EmptyQueueException if the queue is empty.
      */
-    public int peek() {
+    public T peek() {
         if (isEmpty()) {
             throw new EmptyQueueException("Queue is empty. Cannot peek.");
         }
@@ -142,17 +160,17 @@ public class ArrayQueue {
         return size == capacity;
     }
 
-    public int[] getFullQueue() {
-        return queue;
-    }
+//    public int[] getFullQueue() {
+//        return queue;
+//    }
 
     /**
      * Returns the current elements in the queue.
      *
      * @return an array containing only active queue elements.
      */
-    public int[] getQueue() {
-        int[] activeQueue = new int[size];
+    public T[] getQueue() {
+        T[] activeQueue = (T[]) new Object[size];
         for (int i = 0; i < size; i++) {
             activeQueue[i] = queue[(head + i) % capacity];
         }
@@ -170,14 +188,15 @@ public class ArrayQueue {
 
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
-        for (int item : getQueue()) {
-            sb.append(item).append(", ");
+        for (T item : getQueue()) {
+            sb.append(item).append(" ");
         }
         sb.append(" ]");
         System.out.println(sb);
     }
 
     public static void main(String[] args) {
+//        ArrayQueue<Integer> intQueue = new ArrayQueue<>(Integer.class, 3);
         ArrayQueue arrayQueue = new ArrayQueue(3);
         arrayQueue.enqueue(1);
         arrayQueue.enqueue(2);
