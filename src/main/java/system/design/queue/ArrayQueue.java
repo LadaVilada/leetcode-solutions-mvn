@@ -1,5 +1,6 @@
 package system.design.queue;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -41,11 +42,12 @@ import java.util.Arrays;
  */
 public class ArrayQueue<T> {
 
-    private T[] queue;
+    private final T[] queue;
+    private final int capacity;
+
     private int head;
     private int tail;
     private int size;
-    private final int capacity;
 
     /**
      * Constructor initializes an empty circular queue with fixed capacity.
@@ -71,7 +73,7 @@ public class ArrayQueue<T> {
      */
     public ArrayQueue(Class<T> clazz, int capacity) {
         this.capacity = capacity;
-        this.queue = (T[]) java.lang.reflect.Array.newInstance(clazz, capacity); // Safe Reflection-Based Array
+        this.queue = (T[]) Array.newInstance(clazz, capacity); // Safe Reflection-Based Array
 
         head = 0;
         tail = -1;
@@ -116,6 +118,8 @@ public class ArrayQueue<T> {
         }
 
         T item = queue[head];
+        // Helps with garbage collection
+        queue[head] = null;
         head = (head + 1) % capacity;
         size--;
 
@@ -196,17 +200,16 @@ public class ArrayQueue<T> {
     }
 
     public static void main(String[] args) {
-//        ArrayQueue<Integer> intQueue = new ArrayQueue<>(Integer.class, 3);
-        ArrayQueue arrayQueue = new ArrayQueue(3);
+        ArrayQueue<Integer> arrayQueue = new ArrayQueue<>(Integer.class, 3);
         arrayQueue.enqueue(1);
         arrayQueue.enqueue(2);
         arrayQueue.enqueue(3);
-        arrayQueue.printQueue();
+        arrayQueue.printQueue(); // [1, 2, 3]
 
-        System.out.println(arrayQueue.peek()); // return 1
-        arrayQueue.poll(); // dequeue/remove 1
-        System.out.println(arrayQueue.peek()); // return 2
-        arrayQueue.poll(); // dequeue/remove 2
-        arrayQueue.printQueue();
+        System.out.println(arrayQueue.poll()); // 1
+        arrayQueue.printQueue(); // [null, 2, 3]
+
+        arrayQueue.enqueue(4);
+        arrayQueue.printQueue(); // [4, 2, 3] (Circular Queue)
     }
 }
