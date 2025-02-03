@@ -71,6 +71,7 @@ public class ArrayQueue<T> {
      * @param clazz    ClassType Token
      * @param capacity the maximum number of elements the queue can hold.
      */
+    @SuppressWarnings("unchecked")
     public ArrayQueue(Class<T> clazz, int capacity) {
         this.capacity = capacity;
         this.queue = (T[]) Array.newInstance(clazz, capacity); // Safe Reflection-Based Array
